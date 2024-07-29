@@ -109,3 +109,93 @@ void Computer::load_command(int instr, int memory_location) {
     }
     memory[memory_location] = instr;
 }
+
+bool Computer::check_overflow() const {
+    return (accum > 9999 || accum < -9999);
+}
+
+void Computer::print_overflow() const {
+    puts("*** Accumulator overflow                       ***");
+    puts("*** Simpletron execution abnormally terminated ***");
+}
+
+void Computer::execute() {
+    /*
+    1. Fetch (read) the instrucion in (instCount) memory location and save it in instReg.
+    2. Split the instruction into operCode and operand
+    3. Define the operation
+*/
+    //fetch the contents of the (ic) memory location into the ir
+    bool exit = false;
+    while (!exit) {
+        
+        instReg = memory[instCount];
+        operCode = instReg / 100;
+        operand = instReg % 100;
+
+        switch(operCode) {
+        case READ:
+            putchar('?');
+            putchar(' ');
+            scanf("%d", &memory[operand]);
+            break;
+        case WRITE:
+            printf("%d\n", memory[operand]);
+            break;   
+        case LOAD:
+            accum = memory[operand];
+            break;   
+        case DIRECT_LOAD:
+            //get memory location
+            instCount++; //go to the next word
+            memory[operand] = memory[instCount];
+            break;   
+        case STORE:
+            memory[operand] = accum;
+            break;   
+        case ADD:
+            accum += memory[operand];
+            break;   
+        case SUBTRACT:
+            accum -= memory[operand];
+            break;   
+        case DIVIDE:
+            if (memory[operand] == 0) {
+                puts("*** Attemp to divide by zero                   ***");
+                puts("*** Simpletron execution abnormally terminated ***");
+                exit = true;
+            } 
+            else {
+                accum /= memory[operand];
+            }
+            break;   
+        case MULTIPLY:
+            accum *= memory[operand];
+            break;   
+        case HALT:
+            puts("*** Simpletron execution terminated ***");
+            exit = true;
+            break;   
+        case BRANCH:
+        case BRANCHNEG:
+        case BRANCHZERO:
+            break;
+        default:
+            puts("\n*** Invalid operation code                     ***");
+            puts("*** Simpletron execution abnormally terminated ***\n");
+            exit = true;
+        }
+        if (check_overflow()) {
+            print_overflow();
+            exit = true;
+        }
+        if (operCode == BRANCH || (operCode == BRANCHNEG && accum < 0) || (operCode == BRANCHZERO && accum == 0)) {
+            instCount = operand;
+        }
+        else {
+            instCount++;
+        }
+    }
+}
+
+
