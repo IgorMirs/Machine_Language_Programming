@@ -3,8 +3,9 @@
 int main() {
 
     Computer comp(100);
-    comp.load("add_two_numbers.sml");
+    comp.load("..//data/add_two_numbers.sml");
     comp.dump();
+    comp.execute();
 
     return 0;
 }
