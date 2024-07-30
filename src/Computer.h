@@ -55,6 +55,8 @@ class Computer {
         void load_command(int instr, int memory_location);
         bool check_overflow() const;
         void print_overflow() const;
+        void print_registers() const;
+        void print_memory() const;
 };
 
 #endif

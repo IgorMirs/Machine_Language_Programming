@@ -9,6 +9,7 @@ Computer::Computer(size_t mem_size)
       operand(0) 
 {
     memory = new int[memory_size];
+    init_mem();
 }
 
 Computer::Computer(const Computer& other) 
@@ -18,6 +19,7 @@ Computer::Computer(const Computer& other)
 {
     memory_size = other.memory_size;
     memory = new int[memory_size];
+    init_mem();
     for (int i = 0; i < memory_size; i++) {
         memory[i] = other.memory[i];
     }
@@ -46,27 +48,9 @@ void Computer::init_mem() {
 
 void Computer::dump() const {
     puts("REGISTERS:");
-    printf("%-20s %+05d\n", "accumulator", accum);
-    printf("%-23s %02d\n", "instructionCounter", instCount);
-    printf("%-20s %+05d\n", "instructionRegister", instReg);
-    printf("%-23s %02d\n", "operationCode", operCode);
-    printf("%-23s %02d\n\n", "operand", operand);
+    print_registers();
     puts("MEMORY:");
-    printf("%9d", 0);
-    for(int i = 1; i < 10; i++) {
-        printf("%7d", i);
-    }
-    putchar('\n');
-    int row_index = 0;
-    printf("%2d", row_index);
-    for(int i = 0; i < memory_size; i++) {
-        if (i > 0 && i % 10 == 0) {
-            putchar('\n');
-            printf("%2d", row_index += 10);
-        }
-        printf("%+7.4d", memory[i]);
-    }
-    putchar('\n');
+    print_memory();
 }   
 
 
@@ -195,7 +179,32 @@ void Computer::execute() {
         else {
             instCount++;
         }
-    }
+    } //end while
 }
 
 
+void Computer::print_registers() const {
+    printf("%-20s %+05d\n", "accumulator", accum);
+    printf("%-23s %02d\n", "instructionCounter", instCount);
+    printf("%-20s %+05d\n", "instructionRegister", instReg);
+    printf("%-23s %02d\n", "operationCode", operCode);
+    printf("%-23s %02d\n\n", "operand", operand);
+}
+
+void Computer::print_memory() const {
+    printf("%9d", 0);
+    for(int i = 1; i < 10; i++) {
+        printf("%7d", i);
+    }
+    putchar('\n');
+    int row_index = 0;
+    printf("%2d", row_index);
+    for(int i = 0; i < memory_size; i++) {
+        if (i > 0 && i % 10 == 0) {
+            putchar('\n');
+            printf("%2d", row_index += 10);
+        }
+        printf("%+7.4d", memory[i]);
+    }
+    putchar('\n');
+}
