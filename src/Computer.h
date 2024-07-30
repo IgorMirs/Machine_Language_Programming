@@ -57,6 +57,8 @@ class Computer {
         void print_overflow() const;
         void print_registers() const;
         void print_memory() const;
+        void get_cur_dir_path(char* cwd, size_t size) const;
+
 };
 
 #endif

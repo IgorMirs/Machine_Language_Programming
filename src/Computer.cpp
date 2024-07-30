@@ -64,12 +64,15 @@ void Computer::load(std::string file_name) {
     std::ifstream input;
     char cwd[PATH_MAX];
     //get cur dir path
-    if (getcwd(cwd, sizeof(cwd)) != NULL) {
-        strcat(cwd, "/src/");
-        strcat(cwd, file_name.c_str());
-        input.open(cwd);
-    } else {
-        perror("getcwd() error");
+    get_cur_dir_path(cwd, PATH_MAX);
+    strcat(cwd, file_name.c_str());
+
+    input.open(cwd);
+    if (input.fail()) {
+        puts("\n*** Invalid file name                        ***");
+        puts("*** Simpletron execution abnormally terminated ***\n");
+        input.close();
+        exit(EXIT_FAILURE);
     }
     std::string msg;
     int mem_loc = 0;
@@ -207,4 +210,15 @@ void Computer::print_memory() const {
         printf("%+7.4d", memory[i]);
     }
     putchar('\n');
+}
+
+
+void Computer::get_cur_dir_path(char * cwd, size_t size) const {
+    if (getcwd(cwd, size) != NULL) {
+        strcat(cwd, "/src/");
+    } 
+    else {
+        perror("getcwd() error");
+        exit(EXIT_FAILURE);
+    }
 }
