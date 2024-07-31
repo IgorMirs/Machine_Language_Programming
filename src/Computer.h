@@ -29,6 +29,17 @@
 #define BRANCHZERO 42 //Branch to a specific location in memory if the accumulator is zero.
 #define HALT 43 //Halt—i.e., the program has completed its task.
 
+
+enum ComputerStatus {
+    OK,
+    ERROR,
+    INVALID_FILE_NAME,
+    INVALID_INSTRUCTION,
+    INVALID_OPERATION,
+    DIVIDE_ZERO,
+    END
+};
+
 class Computer {
     public:
         Computer(size_t memory_size);
@@ -44,6 +55,7 @@ class Computer {
     private:
         int* memory;
         size_t memory_size;
+        enum ComputerStatus status;
         //registers
         int accum; //accumulator register
         int instReg; //current instruction
@@ -58,6 +70,10 @@ class Computer {
         void print_registers() const;
         void print_memory() const;
         void get_cur_dir_path(char* cwd, size_t size) const;
+        bool check_instruction() const;
+        enum ComputerStatus get_operation();
+        void print_status() const;
+
 
 };
 
