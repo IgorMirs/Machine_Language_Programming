@@ -36,6 +36,7 @@ enum ComputerStatus {
     INVALID_FILE_NAME,
     INVALID_INSTRUCTION,
     INVALID_OPERATION,
+    AC_OVERFLOW,
     DIVIDE_ZERO,
     END
 };
@@ -66,13 +67,15 @@ class Computer {
         void init_mem();
         void load_command(int instr, int memory_location);
         bool check_overflow() const;
-        void print_overflow() const;
         void print_registers() const;
         void print_memory() const;
         void get_cur_dir_path(char* cwd, size_t size) const;
         bool check_instruction() const;
-        enum ComputerStatus get_operation();
+        void run_operation();
         void print_status() const;
+        void read_instruction();
+        void check_status() const;
+        
 
 
 };
