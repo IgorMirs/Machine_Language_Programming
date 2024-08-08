@@ -190,6 +190,14 @@ void Computer::run_operation() {
             accum /= memory[operand];
         }
         break; 
+    case REMAINDER:
+        if (memory[operand] == 0) {
+            status = DIVIDE_ZERO;
+        } 
+        else {
+            accum %= memory[operand];
+        }
+        break; 
     case MULTIPLY:
         accum *= memory[operand];
         break;   

@@ -20,8 +20,9 @@
 /****Arithmetic operations:****/
 #define ADD 30 //Add a word from a specific location in memory to the word in the accumulator (leave the result in the accumulator).
 #define SUBTRACT 31 //Subtract a word from a specific location in memory from the word in the accumulator (leave the result in the accumulator).
-#define DIVIDE 32 //Divide a word from a specific location in memory into the word in the accumulator (leave the result in the accumulator).
+#define DIVIDE 32 //Divide the word in the accumulator by a word from a specific location in memory (leave the result in the accumulator).
 #define MULTIPLY 33 //Multiply a word from a specific location in memory by the word in the accumulator (leave the result in the accumulator).
+#define REMAINDER 34 //Take a remainder after the division of the word in the accumulator by a word from a specific location in memory (leave the result in the accumulator).
 
 /****Transfer-of-control operations:****/
 #define BRANCH 40 //Branch to a specific location in memory.
